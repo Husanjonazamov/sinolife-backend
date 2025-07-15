@@ -8,14 +8,18 @@ from django.utils.safestring import mark_safe
 @admin.register(BannerModel)
 class BannerAdmin(ModelAdmin):
     list_display = (
-        "id",
+        "colored_id",
         "image_tag",
     )
+    
+    def colored_id(self, obj):
+        return mark_safe(f'<span style="color: #0ef;">{obj.id}</span>')
+    colored_id.short_description = "ID"
 
     def image_tag(self, obj):
         if obj.image:  
             return mark_safe(
-                f'<img src="{obj.image.url}" width="80" style="border-radius: 10px; object-fit: cover;" />'
+                f'<img src="{obj.image.url}" width="50" style="border-radius: 10px; object-fit: cover;" />'
             )
         return "-"
     image_tag.short_description = "Rasm"
