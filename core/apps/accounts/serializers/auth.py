@@ -8,6 +8,7 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=255)
 
 
+
 class RegisterSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(max_length=255)
 
@@ -19,12 +20,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["first_name", "last_name", "phone", "password"]
+        fields = ["first_name", "phone", "password"]
         extra_kwargs = {
             "first_name": {
                 "required": True,
             },
-            "last_name": {"required": True},
         }
 
 

@@ -6,7 +6,7 @@ PAGES = [
         "seperator": False,
         "items": [
             {
-                "title": _("Home page"),
+                "title": _("Bosh sahifa"),
                 "icon": "home",
                 "link": reverse_lazy("admin:index"),
             }
@@ -17,7 +17,7 @@ PAGES = [
         "separator": True,  # Top border
         "items": [
             {
-                "title": _("Users"),
+                "title": _("Foydalanuvchilar"),
                 "icon": "person",
                 "link": reverse_lazy("admin:accounts_user_changelist"),
             },

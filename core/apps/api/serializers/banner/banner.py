@@ -3,11 +3,14 @@ from rest_framework import serializers
 from core.apps.api.models import BannerModel
 
 
+
 class BaseBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannerModel
         fields = [
             "id",
+            "title",
+            "subtitle",
             "image",
         ]
 

@@ -53,12 +53,10 @@ class RegisterView(BaseViewSetMixin, GenericViewSet, UserService):
         ser.is_valid(raise_exception=True)
         data = ser.data
         phone = data.get("phone")
-        # Create pending user
-        self.create_user(phone, data.get("first_name"), data.get("last_name"), data.get("password"))
-        self.send_confirmation(phone)  # Send confirmation code for sms eskiz.uz
+        self.create_user(phone, data.get("first_name"), data.get("password"))
         return Response(
-            {"detail": _("Sms %(phone)s raqamiga yuborildi") % {"phone": phone}},
-            status=status.HTTP_202_ACCEPTED,
+            {"detail": "Foydalanuvchi yaratildi"},
+            status=status.HTTP_201_CREATED
         )
 
     @extend_schema(summary="Auth confirm.", description="Auth confirm user.")

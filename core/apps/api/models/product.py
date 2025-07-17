@@ -20,6 +20,8 @@ class ProductModel(AbstractBaseModel):
     price = models.DecimalField(verbose_name=_("Chegirmadagi narx"), max_digits=10, decimal_places=2)
     image = models.ImageField(verbose_name=_("Rasm"), upload_to="products/", blank=True)
     quantity = models.PositiveIntegerField(verbose_name=_("Mahsulot soni"), default=0)
+    
+    is_populer = models.BooleanField(verbose_name=_("Mashhurmi ?"), default=False)
     is_new = models.BooleanField(verbose_name=_("Yangi mahsulotmi ?"), default=False)
     is_discounted = models.BooleanField(verbose_name=_("Chegirmada"), default=False)
 

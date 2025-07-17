@@ -9,6 +9,7 @@ class BaseCategorySerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
+            "image",
         ]
 
 
