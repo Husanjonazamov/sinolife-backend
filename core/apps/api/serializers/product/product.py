@@ -34,5 +34,5 @@ class CreateProductSerializer(BaseProductSerializer):
     class Meta(BaseProductSerializer.Meta):
         fields = [
             "id",
-            "name",
+            "title",
         ]

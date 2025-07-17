@@ -1,15 +1,28 @@
 from rest_framework import serializers
 
-from core.apps.api.models import CartModel
+from core.apps.api.models import CartModel, CartitemModel
+from core.apps.accounts.serializers.user import UserSerializer
+
+from core.apps.api.serializers.cart.cartItem import CreateCartitemSerializer, ListCartitemSerializer
+from django.db.models import Sum
+
 
 
 class BaseCartSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    cart_items = serializers.SerializerMethodField()
+    
     class Meta:
         model = CartModel
         fields = [
             "id",
-            "name",
+            "user",
+            "total_price",
+            "cart_items"
         ]
+        
+    def get_cart_items(self, obj):
+        return ListCartitemSerializer(obj.cart_items.all(), many=True).data
 
 
 class ListCartSerializer(BaseCartSerializer):
@@ -20,9 +33,47 @@ class RetrieveCartSerializer(BaseCartSerializer):
     class Meta(BaseCartSerializer.Meta): ...
 
 
-class CreateCartSerializer(BaseCartSerializer):
-    class Meta(BaseCartSerializer.Meta):
+class CreateCartSerializer(serializers.ModelSerializer):
+    cart_items = CreateCartitemSerializer(many=True, write_only=True)
+
+    class Meta:
+        model = CartModel
         fields = [
             "id",
-            "name",
+            "cart_items",
         ]
+        
+    def create(self, validated_data):
+        cart_items_data = validated_data.pop("cart_items")
+        user = self.context['request'].user
+        
+        cart, created = CartModel.objects.get_or_create(user=user, defaults={"total_price": 0})
+        
+        for item_data in cart_items_data:
+            product = item_data['product']
+            quantity = item_data['quantity']
+            product_price = product.price
+            item_total = product.price * quantity
+            
+            cart_item_qs = CartitemModel.objects.filter(cart=cart, product=product)
+            if cart_item_qs.exists():
+                cart_item = cart_item_qs.first()
+                cart_item.quantity += quantity
+                cart_item.total_price = cart_item.quantity * product_price
+                cart_item.save()
+            else:
+                CartitemModel.objects.create(
+                    cart=cart,
+                    product=product,
+                    quantity=quantity,
+                    total_price=item_total
+                )
+                 
+        total = CartitemModel.objects.filter(cart=cart).aggregate(
+            total=Sum('total_price')
+        )['total'] or 0
+        
+        cart.total_price = total
+        cart.save()
+
+        return cart
