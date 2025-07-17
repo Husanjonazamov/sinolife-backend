@@ -8,7 +8,8 @@ class BaseOrderitemSerializer(serializers.ModelSerializer):
         model = OrderitemModel
         fields = [
             "id",
-            "name",
+            "product",
+            "quantity"
         ]
 
 
@@ -20,9 +21,10 @@ class RetrieveOrderitemSerializer(BaseOrderitemSerializer):
     class Meta(BaseOrderitemSerializer.Meta): ...
 
 
-class CreateOrderitemSerializer(BaseOrderitemSerializer):
-    class Meta(BaseOrderitemSerializer.Meta):
+class CreateOrderitemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderitemModel
         fields = [
-            "id",
-            "name",
+            "product",
+            "quantity",
         ]
