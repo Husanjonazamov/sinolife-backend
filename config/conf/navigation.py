@@ -44,4 +44,20 @@ PAGES = [
             },
         ],
     },
+    {
+        "title": _("Buyurtmalar"),
+        "separator": True,  # Top border
+        "items": [
+            {
+                "title": _("Buyurtma egasi"),
+                "icon": "package",
+                "link": reverse_lazy("admin:api_ordermodel_changelist"),
+            },
+             {
+                "title": _("Buyurtmadagi mahsulotlar"),
+                "icon": "box",
+                "link": reverse_lazy("admin:api_orderitemmodel_changelist"),
+            },
+        ],
+    },
 ]
