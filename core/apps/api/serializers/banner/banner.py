@@ -8,7 +8,7 @@ class BaseBannerSerializer(serializers.ModelSerializer):
         model = BannerModel
         fields = [
             "id",
-            "name",
+            "image",
         ]
 
 
@@ -24,5 +24,5 @@ class CreateBannerSerializer(BaseBannerSerializer):
     class Meta(BaseBannerSerializer.Meta):
         fields = [
             "id",
-            "name",
+            "image",
         ]

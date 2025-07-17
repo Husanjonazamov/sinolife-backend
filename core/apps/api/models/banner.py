@@ -4,6 +4,8 @@ from django_core.models import AbstractBaseModel
 
 
 class BannerModel(AbstractBaseModel):
+    title = models.CharField(verbose_name=_("Nomi"), max_length=200, blank=True, null=True)
+    subtitle = models.CharField(verbose_name=_("Kichik Sarlavha"), max_length=300, blank=True, null=True)
     image = models.ImageField(
         _("Image"),
         upload_to="banners/",
@@ -12,7 +14,7 @@ class BannerModel(AbstractBaseModel):
     )
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.title)
 
     @classmethod
     def _create_fake(self):

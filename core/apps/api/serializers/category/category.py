@@ -8,7 +8,7 @@ class BaseCategorySerializer(serializers.ModelSerializer):
         model = CategoryModel
         fields = [
             "id",
-            "name",
+            "title",
         ]
 
 
@@ -24,5 +24,5 @@ class CreateCategorySerializer(BaseCategorySerializer):
     class Meta(BaseCategorySerializer.Meta):
         fields = [
             "id",
-            "name",
+            "title",
         ]
