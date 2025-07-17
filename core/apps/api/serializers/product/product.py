@@ -3,6 +3,7 @@ from rest_framework import serializers
 from core.apps.api.models import ProductModel
 
 
+
 class BaseProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductModel
@@ -15,6 +16,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
             "price",
             "image",
             "quantity",
+            "is_populer",
             "is_new",
             "is_discounted",
         ]

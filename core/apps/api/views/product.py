@@ -22,6 +22,8 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
+    ordering_fields = ['created_at', 'price']
+    ordering = ['-created_at'] 
 
     action_permission_classes = {}
     action_serializer_class = {
