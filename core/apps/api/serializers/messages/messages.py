@@ -8,7 +8,9 @@ class BaseMessagesSerializer(serializers.ModelSerializer):
         model = MessagesModel
         fields = [
             "id",
-            "name",
+            "first_name",
+            "phone",
+            "message",
         ]
 
 
@@ -24,5 +26,7 @@ class CreateMessagesSerializer(BaseMessagesSerializer):
     class Meta(BaseMessagesSerializer.Meta):
         fields = [
             "id",
-            "name",
+            "first_name",
+            "phone",
+            "message"
         ]

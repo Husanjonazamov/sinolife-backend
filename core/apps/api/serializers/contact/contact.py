@@ -8,7 +8,9 @@ class BaseContactSerializer(serializers.ModelSerializer):
         model = ContactModel
         fields = [
             "id",
-            "name",
+            "phone",
+            "address",
+            "telegram",
         ]
 
 
@@ -24,5 +26,7 @@ class CreateContactSerializer(BaseContactSerializer):
     class Meta(BaseContactSerializer.Meta):
         fields = [
             "id",
-            "name",
+            "phone",
+            "address",
+            "telegram",
         ]
