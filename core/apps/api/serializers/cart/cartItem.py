@@ -5,7 +5,7 @@ from core.apps.api.serializers.product import ListProductSerializer
 
 
 class BaseCartitemSerializer(serializers.ModelSerializer):
-    product = ListProductSerializer()
+    product = serializers.SerializerMethodField()
     
     class Meta:
         model = CartitemModel
@@ -16,6 +16,8 @@ class BaseCartitemSerializer(serializers.ModelSerializer):
             "total_price"
         ]
 
+    def get_product(self, obj):
+        return ListProductSerializer(obj.product, context=self.context).data
 
 class ListCartitemSerializer(BaseCartitemSerializer):
     class Meta(BaseCartitemSerializer.Meta): ...

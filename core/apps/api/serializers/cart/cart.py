@@ -11,6 +11,8 @@ from django.db.models import Sum
 class BaseCartSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     cart_items = serializers.SerializerMethodField()
+    cart_items_count = serializers.SerializerMethodField()   # <-- Qo'shish shart!
+
     
     class Meta:
         model = CartModel
@@ -18,11 +20,19 @@ class BaseCartSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "total_price",
+            "cart_items_count",
             "cart_items"
         ]
         
     def get_cart_items(self, obj):
-        return ListCartitemSerializer(obj.cart_items.all(), many=True).data
+        return ListCartitemSerializer(
+            obj.cart_items.all(), 
+            many=True, 
+            context=self.context   # <-- MUHIM!
+        ).data
+        
+    def get_cart_items_count(self, obj):
+        return obj.cart_items.count()
 
 
 class ListCartSerializer(BaseCartSerializer):

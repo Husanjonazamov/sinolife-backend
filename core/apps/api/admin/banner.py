@@ -13,6 +13,7 @@ class BannerAdmin(ModelAdmin, TabbedTranslationAdmin):
     list_display = (
         "colored_id",
         "title_tag",
+        "type",
         "subtitle_tag",
         "image_tag",
     )

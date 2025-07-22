@@ -15,6 +15,7 @@ class UserService(sms.SmsService):
         return {
             "refresh": str(refresh),
             "access": str(refresh.access_token),
+            "first_name": user.first_name
         }
 
     def create_user(self, phone, first_name,  password):

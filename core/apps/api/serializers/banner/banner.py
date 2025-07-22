@@ -10,7 +10,9 @@ class BaseBannerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
+            "type",
             "subtitle",
+            "description",
             "image",
         ]
 

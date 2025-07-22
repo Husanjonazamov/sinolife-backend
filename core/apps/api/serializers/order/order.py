@@ -4,9 +4,11 @@ from core.apps.api.models import OrderModel
 from core.apps.accounts.serializers.user import UserSerializer
 from core.apps.api.serializers.order.orderItem import CreateOrderitemSerializer
 from core.apps.api.models.order import OrderitemModel
+from core.apps.api.serializers.order.send_telegram import send_order
 
 class BaseOrderSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    
     class Meta:
         model = OrderModel
         fields = [
@@ -74,6 +76,16 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             total_order_price += item_total
 
         order.total = total_order_price
+        send_order(order)
         order.save()
+        
+        
+        cart = user.users.first()
+        
+        if cart:
+            cart.cart_items.all().delete()
+            
+            cart.total_price = 0
+            cart.save()
 
         return order

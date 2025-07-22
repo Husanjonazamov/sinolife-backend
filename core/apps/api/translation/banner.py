@@ -8,4 +8,5 @@ class BannerTranslation(TranslationOptions):
     fields = [
         "title",
         "subtitle",
+        "description"
     ]
