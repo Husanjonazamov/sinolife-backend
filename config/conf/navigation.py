@@ -60,4 +60,20 @@ PAGES = [
             },
         ],
     },
+    {
+        "title": _("Malumotlar"),
+        "separator": True,  # Top border
+        "items": [
+            {
+                "title": _("Xabarlar"),
+                "icon": "message",
+                "link": reverse_lazy("admin:api_messagesmodel_changelist"),
+            },
+             {
+                "title": _("Aloqa Malumotlari"),
+                "icon": "phone",
+                "link": reverse_lazy("admin:api_contactmodel_changelist"),
+            },
+        ],
+    },
 ]
