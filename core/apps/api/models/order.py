@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_core.models import AbstractBaseModel
-from core.apps.api.enums.order import OrderPaymentChoice
+from core.apps.api.enums.order import OrderPaymentChoice, OrderStatusChoice, OrderPaymentStatusChoice
 
 
 
@@ -22,6 +22,8 @@ class OrderModel(AbstractBaseModel):
         choices=OrderPaymentChoice.choices,
         default=OrderPaymentChoice.CLICK
     )
+    status = models.CharField(verbose_name=_("Status"), max_length=200, choices=OrderStatusChoice.choices, default=OrderStatusChoice.PENDING)
+    payment_status = models.CharField(verbose_name=_("Tolov statusi"), max_length=200, choices=OrderPaymentStatusChoice.choices, default=OrderPaymentStatusChoice.UNPAID)
     
     total = models.DecimalField(
         verbose_name=_("Jami narx"),

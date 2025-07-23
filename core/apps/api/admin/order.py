@@ -12,8 +12,37 @@ class OrderAdmin(ModelAdmin):
         "first_name_tag",
         "phone_tag",
         "payment_type_tag",
+        "status_badge",
+        "payment_status_badge",
         "total_tag",
     )
+
+
+    def status_badge(self, obj):
+        color_map = {
+            'pending': 'orange',
+            'accepted': 'blue',
+            'rejected': 'red',
+            'completed': 'green',
+        }
+        color = color_map.get(obj.status, 'gray')
+        label = obj.get_status_display()
+        return format_html(
+            '<span style="color:{}; font-weight:bold;">{}</span>',
+            color, label
+        )
+    status_badge.short_description = "Buyurtma statusi"
+
+
+    def payment_status_badge(self, obj):
+        color = 'green' if obj.payment_status == 'paid' else 'red'
+        label = obj.get_payment_status_display()
+        return format_html(
+            '<span style="color:{}; font-weight:bold;">{}</span>',
+            color, label
+        )
+    payment_status_badge.short_description = "To'lov statusi"
+
 
     def colored_id(self, obj):
         return format_html(

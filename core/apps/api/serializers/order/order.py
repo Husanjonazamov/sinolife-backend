@@ -2,12 +2,13 @@ from rest_framework import serializers
 
 from core.apps.api.models import OrderModel
 from core.apps.accounts.serializers.user import UserSerializer
-from core.apps.api.serializers.order.orderItem import CreateOrderitemSerializer
+from core.apps.api.serializers.order.orderItem import CreateOrderitemSerializer, BaseOrderitemSerializer
 from core.apps.api.models.order import OrderitemModel
 from core.apps.api.serializers.order.send_telegram import send_order
 
 class BaseOrderSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    order_items = serializers.SerializerMethodField()
     
     class Meta:
         model = OrderModel
@@ -19,9 +20,18 @@ class BaseOrderSerializer(serializers.ModelSerializer):
             "payment_type",
             "lat",
             "lon",
+            "status",
+            "payment_status",
+            "created_at",
+            "order_items",
             "total"
         ]
         
+    def get_order_items(self, obj):
+        request = self.context.get("request")
+        return BaseOrderitemSerializer(obj.order_items.all(), many=True, context={"request": request}).data  # ✅
+
+    
     def get_user(self, obj):
         return UserSerializer(obj.user, read_only=True).data
 
@@ -48,6 +58,9 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             "lat",
             "lon",
             "total",
+            "status",
+            "payment_status",
+            "created_at",
             "order_item"
         ]
         
