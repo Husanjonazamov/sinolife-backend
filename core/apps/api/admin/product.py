@@ -14,7 +14,6 @@ class ProductAdmin(ModelAdmin, TabbedTranslationAdmin):
         "id_badge",
         "title_badge",
         "category_colored",
-        "short_description",
         "discounted_price_badge",
         "price_badge",
         "image_tag",
@@ -46,10 +45,6 @@ class ProductAdmin(ModelAdmin, TabbedTranslationAdmin):
     title_badge.short_description = "Nomi"
 
 
-    def short_description(self, obj):
-        return obj.description[:50] + ("..." if len(obj.description) > 50 else "")
-    short_description.short_description = "Tavsif"
-    
 
     def discounted_price_badge(self, obj):
         return mark_safe(

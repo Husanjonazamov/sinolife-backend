@@ -3,6 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from django_core.models import AbstractBaseModel
 
 
+
+
 class MessagesModel(AbstractBaseModel):
     first_name = models.CharField(verbose_name=_("Ism"), max_length=255)
     phone = models.CharField(verbose_name=_("Telefon"), max_length=200)
@@ -16,7 +18,7 @@ class MessagesModel(AbstractBaseModel):
         return self.objects.create(
             name="mock",
         )
-
+        
     class Meta:
         db_table = "messages"
         verbose_name = _("MessagesModel")
