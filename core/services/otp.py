@@ -54,8 +54,11 @@ class EskizService:
 
     def auth(self):
         data = {"email": self.email, "password": self.password}
+        print(data)
 
-        return self.request(self.methods["auth_login"], data=data, method=self.POST)
+        response = self.request(self.methods["auth_login"], data=data, method=self.POST)
+        print("Auth response:", response)  # token va javobni ko‘rish uchun
+        return response
 
     def refresh_token(self):
         token = self.auth()["data"]["token"]
@@ -113,6 +116,10 @@ class EskizService:
     def send_sms(self, phone_number, message):
         token = self.auth()["data"]["token"]
         self.headers["Authorization"] = "Bearer " + token
+        auth_response = self.auth()
+
+        print("Token:", auth_response.get("data", {}).get("token"))
+
 
         data = {
             "from": 4546,
@@ -128,9 +135,13 @@ class EskizService:
             "data": data,
         }
 
-        return self.request(
+        print(context)
+        response = self.request(
             context["api_path"],
             data=context["data"],
             method=context["method"],
             headers=context["headers"],
         )
+        print(f"response: \n\n\n\n{response}\n\n\n")
+        return response
+        

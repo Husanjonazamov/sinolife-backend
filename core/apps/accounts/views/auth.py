@@ -54,11 +54,12 @@ class RegisterView(BaseViewSetMixin, GenericViewSet, UserService):
         data = ser.data
         phone = data.get("phone")
         self.create_user(phone, data.get("first_name"), data.get("password"))
+        self.send_confirmation(phone)  
         return Response(
-            {"detail": "Foydalanuvchi yaratildi"},
-            status=status.HTTP_201_CREATED
+            {"detail": _("Sms %(phone)s raqamiga yuborildi") % {"phone": phone}},
+            status=status.HTTP_202_ACCEPTED,
         )
-
+        
     @extend_schema(summary="Auth confirm.", description="Auth confirm user.")
     @action(methods=["POST"], detail=False, url_path="confirm")
     def confirm(self, request):

@@ -1,13 +1,17 @@
 from datetime import datetime, timedelta
 
-from django_core import exceptions, models, tasks
+import random
+from django_core import exceptions, models
+from core.apps.accounts.tasks.tasks import SendConfirm
 
 
 class SmsService:
     @staticmethod
     def send_confirm(phone):
-        # TODO: Deploy this change when deploying -> code = random.randint(1000, 9999) # noqa
-        code = 1111
+        code = random.randint(1000, 9999) # noqa
+        print(code)
+        print(phone)
+        # code = 1111
 
         sms_confirm, status = models.SmsConfirm.objects.get_or_create(phone=phone, defaults={"code": code})
 
@@ -28,7 +32,7 @@ class SmsService:
         )  # noqa
         sms_confirm.save()
 
-        tasks.SendConfirm.delay(phone, code)
+        SendConfirm.delay(phone, code)
         return True
 
     @staticmethod

@@ -8,3 +8,4 @@ class BannerForm(forms.ModelForm):
     class Meta:
         model = BannerModel
         fields = "__all__"
+    

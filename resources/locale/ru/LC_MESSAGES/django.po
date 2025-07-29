@@ -39,7 +39,7 @@ msgstr ""
 
 #: core/http/tasks/index.py:13
 #, python-format
-msgid "Sizning Tasdiqlash ko'dingiz: %(code)s"
+msgid "Sinolife.uz tizimiga kirish uchun tasdiqlash kodi: %(code)s"
 msgstr ""
 
 #: resources/templates/user/home.html:18
