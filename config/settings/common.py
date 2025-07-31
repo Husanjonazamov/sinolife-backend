@@ -19,7 +19,7 @@ DEBUG = env.bool("DEBUG")
 BOT_TOKEN=env.str("BOT_TOKEN")
 ADMIN=env.int("ADMIN")
 
-
+# CORS_ALLOWED_ORIGINS=True
 
 ALLOWED_HOSTS: Union[List[str]] = ["*"]
 
