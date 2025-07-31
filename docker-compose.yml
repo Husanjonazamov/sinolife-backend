@@ -48,6 +48,22 @@ services:
       POSTGRES_PASSWORD: '2309'
     volumes:
       - pg_data:/var/lib/postgresql/data
+
+  celery:
+    networks:
+      - jigar_backend
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.web  
+    restart: always
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/code
+      - pycache:/var/cache/pycache
+    depends_on:
+      - redis
+      - db
+
   redis:
     networks:
       - jigar_backend
