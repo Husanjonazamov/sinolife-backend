@@ -15,6 +15,7 @@ APPS = [
     "django_core",
     "core.apps.accounts.apps.AccountsConfig",
     "core.apps.api",
+    "core.apps.payment",
 ]
 
 if env.str("PROJECT_ENV") == "debug":
