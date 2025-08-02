@@ -9,6 +9,9 @@ from config.env import env
 from django.utils.translation import gettext_lazy as _
 from rich.traceback import install
 
+
+
+
 install(show_locals=True)
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent.parent
 
@@ -159,6 +162,24 @@ SILKY_PYTHON_PROFILER = True
 
 MODELTRANSLATION_LANGUAGES = ("uz", "ru")
 MODELTRANSLATION_DEFAULT_LANGUAGE = "uz"
+
+
+
+
+
+PAYME_ID = env.str("PAYME_ID")
+PAYME_KEY = env.str("PAYME_KEY")
+PAYME_ACCOUNT_FIELD = "order_id"
+PAYME_AMOUNT_FIELD = "total"
+PAYME_ACCOUNT_MODEL = "core.apps.api.models.order.OrderModel"
+PAYME_ONE_TIME_PAYMENT = True
+
+# # CLICK
+# CLICK_SERVICE_ID = env("CLICK_SERVICE_ID")
+# CLICK_MERCHANT_ID = env("CLICK_MERCHANT_ID")
+# CLICK_SECRET_KEY = env("CLICK_SECRET_KEY")
+# CLICK_ACCOUNT_MODEL = "core.apps.api.models.order.OrderModel"
+# CLICK_AMOUNT_FIELD = "total"
 
 
 

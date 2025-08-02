@@ -6,6 +6,8 @@ APPS = [
     "rosetta",
     "django_ckeditor_5",
     
+    'payme',
+    
     "drf_spectacular",
     "rest_framework",
     "corsheaders",

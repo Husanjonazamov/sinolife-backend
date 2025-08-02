@@ -26,4 +26,14 @@ env = environ.Env(
     OTP_MODULE="core.services.otp",
     OTP_SERVICE="EskizService",
     PROJECT_ENV=(str, "prod"),
+    
+    # payment
+    
+    PAYME_ID=(str, "TOKEN"),
+    PAYME_KEY=(str, "TOKEN"),
+    
+    # CLICK_SERVICE_ID=(int, "TOKEN"),
+    # CLICK_MERCHANT_ID=(int, "TOKEN"),
+    # CLICK_SECRET_KEY=(str, "TOKEN"),
+    # CLICK_USER_ID=(int, "TOKEN"),
 )

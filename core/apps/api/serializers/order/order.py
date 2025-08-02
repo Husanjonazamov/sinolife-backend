@@ -5,6 +5,10 @@ from core.apps.accounts.serializers.user import UserSerializer
 from core.apps.api.serializers.order.orderItem import CreateOrderitemSerializer, BaseOrderitemSerializer
 from core.apps.api.models.order import OrderitemModel
 from core.apps.api.serializers.order.send_telegram import send_order
+from core.apps.api.enums.payment_type import order_payment_type
+
+
+
 
 class BaseOrderSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
@@ -46,7 +50,7 @@ class RetrieveOrderSerializer(BaseOrderSerializer):
 
 class CreateOrderSerializer(serializers.ModelSerializer):
     order_item = CreateOrderitemSerializer(many=True, write_only=True)
-
+    pay_link = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = OrderModel
@@ -61,6 +65,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             "status",
             "payment_status",
             "created_at",
+            "pay_link",
             "order_item"
         ]
         
@@ -89,16 +94,20 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             total_order_price += item_total
 
         order.total = total_order_price
-        send_order(order)
+        # send_order(order)
         order.save()
         
-        
         cart = user.users.first()
-        
         if cart:
             cart.cart_items.all().delete()
             
             cart.total_price = 0
             cart.save()
 
+        self.pay_link = order_payment_type(order)
+
+
         return order
+
+    def get_pay_link(self, obj):
+        return getattr(self, "_pay_link", None)

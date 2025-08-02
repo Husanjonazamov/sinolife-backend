@@ -57,3 +57,17 @@ class ResetConfirmationSerializer(serializers.Serializer):
 
 class ResendSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=255)
+
+
+
+# # tg register
+
+# class TgRegisterSerializers(serializers.ModelSerializer):
+#     class Meta:
+#         model = get_user_model()
+#         fields = [
+#             'tg_id',
+#             "phone",
+#             "first_name",
+#             "lang",
+#         ]
