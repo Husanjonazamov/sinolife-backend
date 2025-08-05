@@ -174,12 +174,12 @@ PAYME_AMOUNT_FIELD = "total"
 PAYME_ACCOUNT_MODEL = "core.apps.api.models.order.OrderModel"
 PAYME_ONE_TIME_PAYMENT = True
 
-# # CLICK
-# CLICK_SERVICE_ID = env("CLICK_SERVICE_ID")
-# CLICK_MERCHANT_ID = env("CLICK_MERCHANT_ID")
-# CLICK_SECRET_KEY = env("CLICK_SECRET_KEY")
-# CLICK_ACCOUNT_MODEL = "core.apps.api.models.order.OrderModel"
-# CLICK_AMOUNT_FIELD = "total"
+# CLICK
+CLICK_SERVICE_ID = env("CLICK_SERVICE_ID")
+CLICK_MERCHANT_ID = env("CLICK_MERCHANT_ID")
+CLICK_SECRET_KEY = env("CLICK_SECRET_KEY")
+CLICK_ACCOUNT_MODEL = "core.apps.api.models.order.OrderModel"
+CLICK_AMOUNT_FIELD = "total"
 
 
 
