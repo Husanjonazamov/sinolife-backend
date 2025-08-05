@@ -7,6 +7,7 @@ APPS = [
     "django_ckeditor_5",
     
     'payme',
+    "click_up",
     
     "drf_spectacular",
     "rest_framework",
