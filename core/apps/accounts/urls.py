@@ -7,7 +7,7 @@ from rest_framework_simplejwt import views as jwt_views
 from .views import RegisterView, ResetPasswordView, MeView, ChangePasswordView
 from rest_framework.routers import DefaultRouter
 from core.apps.accounts.views.login import MyTokenObtainPairView
-# from core.apps.accounts.views.tg_auth import TgRegisterView
+from core.apps.accounts.views.tg_auth import TgRegisterView
 
 router = DefaultRouter()
 router.register("auth", RegisterView, basename="auth")
@@ -27,5 +27,5 @@ urlpatterns = [
     ),
     
     # tg register
-    # path("user/create/", TgRegisterView.as_view(), name="user-create")
+    path("user/create/", TgRegisterView.as_view(), name="user-create")
 ]

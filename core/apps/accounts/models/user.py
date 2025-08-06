@@ -1,7 +1,7 @@
 from django.contrib.auth import models as auth_models
 from django.db import models
 
-from ..choices import RoleChoice
+from ..choices import RoleChoice, LangChoices
 from ..managers import UserManager
 from django.utils.translation import gettext_lazy as _
 
@@ -9,6 +9,8 @@ from django.utils.translation import gettext_lazy as _
 
 class User(auth_models.AbstractUser):
     phone = models.CharField(max_length=255, unique=True)
+    tg_id = models.BigIntegerField(blank=True, null=True)
+    lang = models.CharField(max_length=200, blank=True, null=True, choices=LangChoices.choices, default=LangChoices.UZBEK)
     username = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -62,12 +62,12 @@ class ResendSerializer(serializers.Serializer):
 
 # # tg register
 
-# class TgRegisterSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model = get_user_model()
-#         fields = [
-#             'tg_id',
-#             "phone",
-#             "first_name",
-#             "lang",
-#         ]
+class TgRegisterSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'tg_id',
+            "phone",
+            "first_name",
+            "lang",
+        ]
