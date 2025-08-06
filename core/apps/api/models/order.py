@@ -29,6 +29,8 @@ class OrderModel(AbstractBaseModel):
         verbose_name=_("Jami narx"),
         max_digits=30, decimal_places=2
     )
+    pay_link = models.URLField(null=True, blank=True)
+
     
 
     def __str__(self):
