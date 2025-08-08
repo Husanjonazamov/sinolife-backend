@@ -24,6 +24,11 @@ class ProductModel(AbstractBaseModel):
     is_populer = models.BooleanField(verbose_name=_("Mashhurmi ?"), default=False)
     is_new = models.BooleanField(verbose_name=_("Yangi mahsulotmi ?"), default=False)
     is_discounted = models.BooleanField(verbose_name=_("Chegirmada"), default=False)
+    
+    image_id = models.CharField(verbose_name=_("Bot Mahsulotidagi rasm"), max_length=200, blank=True, null=True)
+    video_id = models.CharField(verbose_name=_("Bot Mahsulotidagi rasm"), max_length=200, blank=True, null=True)
+    
+    
 
     def __str__(self):
         return str(self.title)

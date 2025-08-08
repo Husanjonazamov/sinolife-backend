@@ -71,3 +71,11 @@ class TgRegisterSerializers(serializers.ModelSerializer):
             "first_name",
             "lang",
         ]
+
+
+
+
+class UserUpdateBotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['tg_id', 'first_name', 'phone', 'lang']

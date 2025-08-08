@@ -10,12 +10,17 @@ class ProductFilter(filters.FilterSet):
     is_populer = filters.BooleanFilter(field_name='is_populer')
     is_new = filters.BooleanFilter(field_name='is_new')
     is_discounted = filters.BooleanFilter(field_name='is_discounted')
+    category = filters.CharFilter(field_name="category__title", lookup_expr='iexact')
+    title = filters.CharFilter(field_name="title", lookup_expr='iexact')
+
 
 
     class Meta:
         model = ProductModel
         fields = [
             "category_ids",
+            "category",
+            "title",
             "min_price",
             "max_price",
             "is_populer",

@@ -1,6 +1,6 @@
 from django_core.mixins import BaseViewSetMixin
 from drf_spectacular.utils import extend_schema
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from core.apps.api.models import OrderitemModel, OrderModel
@@ -29,7 +29,7 @@ class OrderView(BaseViewSetMixin, ModelViewSet):
     serializer_class = ListOrderSerializer
     filter_backends = [DjangoFilterBackend]  
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     filterset_class = OrderFilter
 
     action_permission_classes = {}
@@ -57,7 +57,7 @@ class OrderView(BaseViewSetMixin, ModelViewSet):
 class OrderitemView(BaseViewSetMixin, ModelViewSet):
     queryset = OrderitemModel.objects.all()
     serializer_class = ListOrderitemSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     action_permission_classes = {}
     action_serializer_class = {

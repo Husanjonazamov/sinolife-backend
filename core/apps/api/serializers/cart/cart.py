@@ -5,6 +5,7 @@ from core.apps.accounts.serializers.user import UserSerializer
 
 from core.apps.api.serializers.cart.cartItem import CreateCartitemSerializer, ListCartitemSerializer
 from django.db.models import Sum
+from core.apps.accounts.models.user import User
 
 
 
@@ -45,26 +46,37 @@ class RetrieveCartSerializer(BaseCartSerializer):
 
 class CreateCartSerializer(serializers.ModelSerializer):
     cart_items = CreateCartitemSerializer(many=True, write_only=True)
+    tg_id = serializers.CharField(write_only=True)  
+
+
+
 
     class Meta:
         model = CartModel
         fields = [
             "id",
+            "tg_id",
             "cart_items",
         ]
         
+
     def create(self, validated_data):
         cart_items_data = validated_data.pop("cart_items")
-        user = self.context['request'].user
-        
+        tg_id = validated_data.pop("tg_id")
+
+        try:
+            user = User.objects.get(tg_id=tg_id)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"tg_id": "Foydalanuvchi topilmadi."})
+
         cart, created = CartModel.objects.get_or_create(user=user, defaults={"total_price": 0})
-        
+
         for item_data in cart_items_data:
             product = item_data['product']
             quantity = item_data['quantity']
             product_price = product.price
-            item_total = product.price * quantity
-            
+            item_total = product_price * quantity
+
             cart_item_qs = CartitemModel.objects.filter(cart=cart, product=product)
             if cart_item_qs.exists():
                 cart_item = cart_item_qs.first()
@@ -78,11 +90,11 @@ class CreateCartSerializer(serializers.ModelSerializer):
                     quantity=quantity,
                     total_price=item_total
                 )
-                 
+
         total = CartitemModel.objects.filter(cart=cart).aggregate(
             total=Sum('total_price')
         )['total'] or 0
-        
+
         cart.total_price = total
         cart.save()
 

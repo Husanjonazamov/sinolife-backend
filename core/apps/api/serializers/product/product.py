@@ -17,6 +17,8 @@ class BaseProductSerializer(serializers.ModelSerializer, BaseCurrencyPriceMixin)
             "id",
             "title",
             "description",
+            "image_id",
+            "video_id",
             "category",
             "discounted_price",
             "price",

@@ -6,6 +6,7 @@ from core.apps.api.serializers.order.orderItem import CreateOrderitemSerializer,
 from core.apps.api.models.order import OrderitemModel
 from core.apps.api.serializers.order.send_telegram import send_order
 from core.apps.api.enums.payment_type import order_payment_type
+from core.apps.accounts.models.user import User
 
 
 
@@ -48,11 +49,10 @@ class RetrieveOrderSerializer(BaseOrderSerializer):
     class Meta(BaseOrderSerializer.Meta): ...
 
 
-
-
 class CreateOrderSerializer(serializers.ModelSerializer):
     order_item = CreateOrderitemSerializer(many=True, write_only=True)
-    
+    tg_id = serializers.IntegerField(write_only=True, required=False)  
+
     class Meta:
         model = OrderModel
         fields = [
@@ -67,18 +67,27 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             "payment_status",
             "created_at",
             "pay_link",
-            "order_item"
+            "order_item",
+            "tg_id",  
         ]
         read_only_fields = ['total', 'status', 'payment_status', 'created_at', 'pay_link']
 
     def create(self, validated_data):
         order_items_data = validated_data.pop('order_item')
-        user = self.context['request'].user
+        tg_id = validated_data.pop('tg_id', None)
+
+        user = self.context['request'].user if self.context['request'].user.is_authenticated else None
+
+        if not user and tg_id:
+            user = User.objects.filter(tg_id=tg_id).first()
+            if not user:
+                raise serializers.ValidationError({'tg_id': "Foydalanuvchi topilmadi."})
+        elif not user:
+            raise serializers.ValidationError("Foydalanuvchi aniqlanmadi (token yoki tg_id yo‘q).")
 
         order = OrderModel.objects.create(user=user, **validated_data, total=0)
 
         total_order_price = 0
-
         for item_data in order_items_data:
             product = item_data['product']
             quantity = item_data.get('quantity', 1)
@@ -103,8 +112,4 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             cart.total_price = 0
             cart.save()
 
-        
-
         return order
-
-  
