@@ -26,7 +26,7 @@ class ProductModel(AbstractBaseModel):
     is_discounted = models.BooleanField(verbose_name=_("Chegirmada"), default=False)
     
     image_id = models.CharField(verbose_name=_("Bot Mahsulotidagi rasm"), max_length=200, blank=True, null=True)
-    video_id = models.CharField(verbose_name=_("Bot Mahsulotidagi rasm"), max_length=200, blank=True, null=True)
+    video_id = models.CharField(verbose_name=_("Bot Mahsulotidagi Video"), max_length=200, blank=True, null=True)
     
     
 
