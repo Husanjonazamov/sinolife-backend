@@ -48,10 +48,9 @@ class ListOrderSerializer(BaseOrderSerializer):
 class RetrieveOrderSerializer(BaseOrderSerializer):
     class Meta(BaseOrderSerializer.Meta): ...
 
-
 class CreateOrderSerializer(serializers.ModelSerializer):
     order_item = CreateOrderitemSerializer(many=True, write_only=True)
-    tg_id = serializers.IntegerField(write_only=True, required=False)  
+    tg_id = serializers.IntegerField(write_only=True, required=False)
 
     class Meta:
         model = OrderModel
@@ -68,23 +67,27 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             "created_at",
             "pay_link",
             "order_item",
-            "tg_id",  
+            "tg_id",
         ]
         read_only_fields = ['total', 'status', 'payment_status', 'created_at', 'pay_link']
 
     def create(self, validated_data):
+        request = self.context.get('request')
         order_items_data = validated_data.pop('order_item')
         tg_id = validated_data.pop('tg_id', None)
 
-        user = self.context['request'].user if self.context['request'].user.is_authenticated else None
-
-        if not user and tg_id:
+        # 1️⃣ Web sayt (token orqali)
+        if request and request.user.is_authenticated:
+            user = request.user
+        # 2️⃣ Telegram bot (tg_id orqali)
+        elif tg_id:
             user = User.objects.filter(tg_id=tg_id).first()
             if not user:
                 raise serializers.ValidationError({'tg_id': "Foydalanuvchi topilmadi."})
-        elif not user:
+        else:
             raise serializers.ValidationError("Foydalanuvchi aniqlanmadi (token yoki tg_id yo‘q).")
 
+        # Buyurtma yaratish
         order = OrderModel.objects.create(user=user, **validated_data, total=0)
 
         total_order_price = 0
@@ -99,17 +102,20 @@ class CreateOrderSerializer(serializers.ModelSerializer):
                 quantity=quantity,
                 total_price=item_total
             )
-
             total_order_price += item_total
 
+        # Umumiy narx va to‘lov linkini yangilash
         order.total = total_order_price
         order.pay_link = order_payment_type(order)
         order.save()
 
-        cart = user.users.first()
+        # Savatni tozalash
+        cart = getattr(user, 'users', None)
         if cart:
-            cart.cart_items.all().delete()
-            cart.total_price = 0
-            cart.save()
+            cart = cart.first()
+            if cart:
+                cart.cart_items.all().delete()
+                cart.total_price = 0
+                cart.save()
 
         return order
