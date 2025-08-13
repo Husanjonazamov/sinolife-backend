@@ -42,7 +42,8 @@ class ListCartSerializer(BaseCartSerializer):
 
 class RetrieveCartSerializer(BaseCartSerializer):
     class Meta(BaseCartSerializer.Meta): ...
-
+    
+    
 
 class CreateCartSerializer(serializers.ModelSerializer):
     cart_items = CreateCartitemSerializer(many=True, write_only=True)
@@ -55,19 +56,29 @@ class CreateCartSerializer(serializers.ModelSerializer):
             "tg_id",
             "cart_items",
         ]
-        
 
     def create(self, validated_data):
+        request = self.context.get('request')
         cart_items_data = validated_data.pop("cart_items")
-        tg_id = validated_data.pop("tg_id")
+        tg_id = validated_data.pop("tg_id", None)
 
-        try:
-            user = User.objects.get(tg_id=tg_id)
-        except User.DoesNotExist:
-            raise serializers.ValidationError({"tg_id": "Foydalanuvchi topilmadi."})
+        # 1️⃣ Telegram botdan kelgan bo'lsa — tg_id bo'yicha foydalanuvchi
+        if tg_id:
+            try:
+                user = User.objects.get(tg_id=tg_id)
+            except User.DoesNotExist:
+                raise serializers.ValidationError({"tg_id": "Foydalanuvchi topilmadi."})
 
+        # 2️⃣ Web saytdan kelgan bo'lsa — token orqali foydalanuvchi
+        else:
+            if not request or not request.user.is_authenticated:
+                raise serializers.ValidationError({"detail": "Authentication required"})
+            user = request.user
+
+        # Savatni olish yoki yaratish
         cart, created = CartModel.objects.get_or_create(user=user, defaults={"total_price": 0})
 
+        # Mahsulotlarni qo'shish
         for item_data in cart_items_data:
             product = item_data['product']
             quantity = item_data['quantity']
@@ -88,6 +99,7 @@ class CreateCartSerializer(serializers.ModelSerializer):
                     total_price=item_total
                 )
 
+        # Jami narxni hisoblash
         total = CartitemModel.objects.filter(cart=cart).aggregate(
             total=Sum('total_price')
         )['total'] or 0
