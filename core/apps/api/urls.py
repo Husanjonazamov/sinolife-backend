@@ -7,6 +7,8 @@ from core.apps.api.views import (
     ContactView, MessagesView
 )
 
+from core.apps.api.views import ProductSearchAPIView
+
 router = DefaultRouter()
 router.register(r"product", ProductView, basename="product")
 router.register(r"category", CategoryView, basename="category")
@@ -20,4 +22,5 @@ router.register(r"order-item", OrderitemView, basename="order-item")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("product/", ProductSearchAPIView.as_view(), name="product_search")
 ]

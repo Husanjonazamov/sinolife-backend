@@ -9,9 +9,24 @@ from core.apps.api.serializers.product import CreateProductSerializer, ListProdu
 from django.db.models import Q
 
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.views import APIView
 from core.apps.api.filters.product import ProductFilter
+from rest_framework import status
+from rest_framework.response import Response
 
 
+
+
+class ProductSearchAPIView(APIView):
+    def get(self, request):
+        query = request.GET.get('search', '')  
+        if query:
+            products = ProductModel.objects.filter(title__icontains=query)
+        else:
+            products = ProductModel.objects.all()
+        
+        serializer = ListProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
