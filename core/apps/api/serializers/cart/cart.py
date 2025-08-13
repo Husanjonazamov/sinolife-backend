@@ -46,10 +46,7 @@ class RetrieveCartSerializer(BaseCartSerializer):
 
 class CreateCartSerializer(serializers.ModelSerializer):
     cart_items = CreateCartitemSerializer(many=True, write_only=True)
-    tg_id = serializers.CharField(write_only=True)  
-
-
-
+    tg_id = serializers.CharField(write_only=True, required=False, allow_blank=True)
 
     class Meta:
         model = CartModel
