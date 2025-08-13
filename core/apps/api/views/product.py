@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from core.apps.api.models import ProductModel
-from core.apps.api.serializers.product import CreateProductSerializer, ListProductSerializer, RetrieveProductSerializer
+from core.apps.api.serializers.product import CreateProductSerializer, BaseProductSerializer, ListProductSerializer, RetrieveProductSerializer
 
 from django.db.models import Q
 
@@ -25,7 +25,7 @@ class ProductSearchAPIView(APIView):
         else:
             products = ProductModel.objects.all()
         
-        serializer = ListProductSerializer(products, many=True)
+        serializer = BaseProductSerializer(products, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

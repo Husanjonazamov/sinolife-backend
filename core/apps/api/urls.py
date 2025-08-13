@@ -22,5 +22,5 @@ router.register(r"order-item", OrderitemView, basename="order-item")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("product/", ProductSearchAPIView.as_view(), name="product_search")
+    path("products/", ProductSearchAPIView.as_view(), name="product_search")
 ]
