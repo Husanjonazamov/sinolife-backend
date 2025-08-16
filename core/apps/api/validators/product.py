@@ -6,3 +6,10 @@ class ProductValidator:
 
     def __call__(self):
         return True
+
+
+class ProductimageValidator:
+    def __init__(self): ...
+
+    def __call__(self):
+        return True

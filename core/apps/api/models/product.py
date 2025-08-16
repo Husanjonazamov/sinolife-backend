@@ -20,15 +20,13 @@ class ProductModel(AbstractBaseModel):
     price = models.DecimalField(verbose_name=_("Chegirmadagi narx"), max_digits=10, decimal_places=2)
     image = models.ImageField(verbose_name=_("Rasm"), upload_to="products/", blank=True)
     quantity = models.PositiveIntegerField(verbose_name=_("Mahsulot soni"), default=0)
-    
+
     is_populer = models.BooleanField(verbose_name=_("Mashhurmi ?"), default=False)
     is_new = models.BooleanField(verbose_name=_("Yangi mahsulotmi ?"), default=False)
     is_discounted = models.BooleanField(verbose_name=_("Chegirmada"), default=False)
-    
+
     image_id = models.CharField(verbose_name=_("Bot Mahsulotidagi rasm"), max_length=200, blank=True, null=True)
     video_id = models.CharField(verbose_name=_("Bot Mahsulotidagi Video"), max_length=200, blank=True, null=True)
-    
-    
 
     def __str__(self):
         return str(self.title)
@@ -43,3 +41,24 @@ class ProductModel(AbstractBaseModel):
         db_table = "product"
         verbose_name = _("ProductModel")
         verbose_name_plural = _("ProductModels")
+
+
+
+
+class ProductimageModel(AbstractBaseModel):
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name="products", verbose_name=_("Mahsulot"))
+    image = models.ImageField(upload_to="product-image/", blank=True, null=True)
+
+    def __str__(self):
+        return str(self.product.image)
+
+    @classmethod
+    def _create_fake(self):
+        return self.objects.create(
+            name="mock",
+        )
+
+    class Meta:
+        db_table = "productImage"
+        verbose_name = _("ProductimageModel")
+        verbose_name_plural = _("ProductimageModels")

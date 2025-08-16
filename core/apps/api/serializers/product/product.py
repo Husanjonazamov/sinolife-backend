@@ -47,7 +47,20 @@ class ListProductSerializer(BaseProductSerializer):
 
 
 class RetrieveProductSerializer(BaseProductSerializer):
-    class Meta(BaseProductSerializer.Meta): ...
+    images = serializers.SerializerMethodField()
+
+    class Meta(BaseProductSerializer.Meta):
+        fields = list(BaseProductSerializer.Meta.fields) + ["images"]
+
+    def get_images(self, obj):
+        request = self.context.get("request")  
+        images = obj.products.all()  
+        return [
+            request.build_absolute_uri(image.image.url) 
+            if image.image else None
+            for image in images
+        ]
+
 
 
 class CreateProductSerializer(BaseProductSerializer):
