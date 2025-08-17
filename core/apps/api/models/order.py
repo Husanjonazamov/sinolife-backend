@@ -14,6 +14,10 @@ class OrderModel(AbstractBaseModel):
     
     first_name = models.CharField(verbose_name=_("Ism"), max_length=200, blank=True, null=True)
     phone = models.CharField(verbose_name=_("Telefon"), max_length=30, blank=True, null=True)
+    region = models.CharField(verbose_name=_("Region"), max_length=100, blank=True, null=True)
+    district = models.CharField(verbose_name=_("Region"), max_length=100, blank=True, null=True)
+    addess = models.TextField(verbose_name=_("Manzil"), blank=True, null=True)
+    
     lon = models.FloatField(blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
     payment_type = models.CharField(

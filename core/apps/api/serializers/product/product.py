@@ -46,6 +46,8 @@ class ListProductSerializer(BaseProductSerializer):
     class Meta(BaseProductSerializer.Meta): ...
 
 
+
+
 class RetrieveProductSerializer(BaseProductSerializer):
     images = serializers.SerializerMethodField()
 

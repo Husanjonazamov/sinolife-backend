@@ -65,6 +65,9 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             "status",
             "payment_status",
             "created_at",
+            "region",   # ✅ qo‘shildi
+            "district", # ✅ qo‘shildi
+            "address",  # ✅ qo‘shildi
             "pay_link",
             "order_item",
             "tg_id",
