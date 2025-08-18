@@ -4,7 +4,7 @@ from core.apps.api.views import (
     ProductView,
     CategoryView,
     BannerView, CartView, OrderView, CartitemView, OrderitemView,
-    ContactView, MessagesView
+    ContactView, MessagesView, CommentView
 )
 
 from core.apps.api.views import ProductSearchAPIView
@@ -19,6 +19,7 @@ router.register(r"cart-item", CartitemView, basename="cart-item")
 router.register(r"contact", ContactView, basename="contact")
 router.register(r"message", MessagesView, basename="message")
 router.register(r"order-item", OrderitemView, basename="order-item")
+router.register(r"comment", CommentView, basename="comment")
 
 urlpatterns = [
     path("", include(router.urls)),
