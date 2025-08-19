@@ -1,4 +1,5 @@
 from .test_banner import *  # noqa
+from .test_brand import *  # noqa
 from .test_cart import *  # noqa
 from .test_category import *  # noqa
 from .test_comment import *  # noqa

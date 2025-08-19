@@ -1,19 +1,26 @@
-from django.utils.safestring import mark_safe
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from core.apps.api.models import CategoryModel
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
-from modeltranslation.admin import TabbedTranslationAdmin
+
+from core.apps.api.models import BrandModel
 
 
-@admin.register(CategoryModel)
-class CategoryAdmin(ModelAdmin, TabbedTranslationAdmin):
+@admin.register(BrandModel)
+class BrandAdmin(ModelAdmin):
     list_display = (
         "id_badge",
         "title_display",
+        "image_tag",
     )
-   
+    
+    def image_tag(self, obj):
+        if obj.image:  
+            return format_html('<img src="{}" width="50" height="50" style="object-fit:cover;"/>', obj.image.url)
+        return "-"
+    
 
     def id_badge(self, obj):
             return mark_safe(
