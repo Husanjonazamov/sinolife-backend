@@ -7,7 +7,7 @@ class BrandModel(AbstractBaseModel):
     title = models.CharField(verbose_name=_("Nomi"), max_length=255)
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.title)
 
     @classmethod
     def _create_fake(self):
