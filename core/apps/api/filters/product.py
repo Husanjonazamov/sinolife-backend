@@ -11,6 +11,7 @@ class ProductFilter(filters.FilterSet):
     is_new = filters.BooleanFilter(field_name="is_new")
     is_discounted = filters.BooleanFilter(field_name="is_discounted")
     category = filters.CharFilter(field_name="category__title", lookup_expr="iexact")
+    brand = filters.CharFilter(field_name="brand__title", lookup_expr="iexact")
     title = filters.CharFilter(field_name="title", lookup_expr="iexact")
 
     class Meta:
@@ -18,6 +19,7 @@ class ProductFilter(filters.FilterSet):
         fields = [
             "category_ids",
             "category",
+            "brand",
             "title",
             "min_price",
             "max_price",

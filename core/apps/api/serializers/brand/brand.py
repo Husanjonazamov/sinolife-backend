@@ -4,18 +4,12 @@ from core.apps.api.models import BrandModel
 
 
 class BaseBrandSerializer(serializers.ModelSerializer):
-    product_count = serializers.SerializerMethodField()
     class Meta:
         model = BrandModel
         fields = [
             "id",
             "title",
-            "image",
-            "product_count"
         ]
-        def get_product_count(self, obj):
-            return obj.products.count()
-        
 
 
 class ListBrandSerializer(BaseBrandSerializer):

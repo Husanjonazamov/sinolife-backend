@@ -38,9 +38,14 @@ PAGES = [
                 "link": reverse_lazy("admin:api_productmodel_changelist"),
             },
             {
+                "title": _("Brendlar"),
+                "icon": "store",
+                "link": reverse_lazy("admin:api_categorymodel_changelist"),
+            },
+            {
                 "title": _("Kategoriyalar"),
                 "icon": "category",
-                "link": reverse_lazy("admin:api_categorymodel_changelist"),
+                "link": reverse_lazy("admin:api_brandmodel_changelist"),
             },
         ],
     },

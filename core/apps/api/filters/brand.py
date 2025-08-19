@@ -1,13 +1,13 @@
-# from django_filters import rest_framework as filters
+from django_filters import rest_framework as filters
 
-# from core.apps.api.models import BrandModel
+from core.apps.api.models import BrandModel
 
 
-# class BrandFilter(filters.FilterSet):
-#     # name = filters.CharFilter(field_name="name", lookup_expr="icontains")
+class BrandFilter(filters.FilterSet):
+    title = filters.CharFilter(field_name="title", lookup_expr="icontains")
 
-#     class Meta:
-#         model = BrandModel
-#         fields = [
-#             "name",
-#         ]
+    class Meta:
+        model = BrandModel
+        fields = [
+            "title",
+        ]
