@@ -3,13 +3,14 @@ from unfold.admin import ModelAdmin
 from core.apps.api.models import CategoryModel
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from modeltranslation.admin import TabbedTranslationAdmin
 
 
 from core.apps.api.models import BrandModel
 
 
 @admin.register(BrandModel)
-class BrandAdmin(ModelAdmin):
+class BrandAdmin(ModelAdmin, TabbedTranslationAdmin):
     list_display = (
         "id_badge",
         "title_display",
