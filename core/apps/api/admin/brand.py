@@ -14,15 +14,7 @@ class BrandAdmin(ModelAdmin, TabbedTranslationAdmin):
     list_display = (
         "id_badge",
         "title_display",
-        "image_tag",
     )
-    
-    def image_tag(self, obj):
-        if obj.image:  
-            return format_html('<img src="{}" width="50" height="50" style="object-fit:cover;"/>', obj.image.url)
-        return "-"
-    
-
     def id_badge(self, obj):
             return mark_safe(
             f'<span style="padding:4px 8px; color:#2980b9; font-weight:bold;">{obj.id}</span>'
