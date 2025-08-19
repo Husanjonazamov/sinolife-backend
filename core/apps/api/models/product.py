@@ -6,10 +6,10 @@ from django_core.models import AbstractBaseModel
 class ProductModel(AbstractBaseModel):
     title = models.CharField(verbose_name=_("Nomi"), max_length=255)
     description = models.TextField(verbose_name=_("Tavsif"), blank=True, null=True)
-    brand = models.ForeignKey("api.BrandModel", verbose_name=_("Brend"), on_delete=models.CASCADE, related_name="brand", blank=True, null=True)
+    brand = models.ForeignKey("api.BrandModel", verbose_name=_("Kategorya"), on_delete=models.CASCADE, related_name="brand", blank=True, null=True)
     category = models.ForeignKey(
         "api.CategoryModel",
-        verbose_name=_("Kategoriya"),
+        verbose_name=_("Brend"),
         on_delete=models.CASCADE,
         related_name="products",
         blank=True,
