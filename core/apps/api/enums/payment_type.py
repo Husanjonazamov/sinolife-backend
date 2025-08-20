@@ -21,12 +21,15 @@ def order_payment_type(order):
             amount=amount,
             return_url="https://sinolife.uz"
         )
-    else:
+    elif payment_type == OrderPaymentChoice.CLICK:
         pay_link = click_up.initializer.generate_pay_link(
             id=int(order_id),
             amount=amount,
             return_url="https://sinolife.uz"
         )
+    else:
+        pay_link = "https://"
+        
         
         
     return pay_link
