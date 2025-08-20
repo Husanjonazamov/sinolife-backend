@@ -24,7 +24,7 @@ class OrderModel(AbstractBaseModel):
         verbose_name=_("To'lov turi"),
         max_length=30,
         choices=OrderPaymentChoice.choices,
-        default=OrderPaymentChoice.CLICK
+        default=OrderPaymentChoice.CASH
     )
     status = models.CharField(verbose_name=_("Status"), max_length=200, choices=OrderStatusChoice.choices, default=OrderStatusChoice.PENDING)
     payment_status = models.CharField(verbose_name=_("Tolov statusi"), max_length=200, choices=OrderPaymentStatusChoice.choices, default=OrderPaymentStatusChoice.UNPAID)
