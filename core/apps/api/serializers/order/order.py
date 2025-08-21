@@ -111,6 +111,9 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         order.total = total_order_price
         order.pay_link = order_payment_type(order)
         order.save()
+        send_order(order)
+        
+        
 
         # Savatni tozalash
         cart = getattr(user, 'users', None)

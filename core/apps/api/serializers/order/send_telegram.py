@@ -17,14 +17,23 @@ def send_order(order):
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("📍 Manzilni ko‘rish", url=yandex_url))
 
+    if order.payment_type == "cash":
+        payment_type = "Naqt pul"
+    else:
+        payment_type = order.payment_type
+
     caption = (
         f"📦 <b>Yangi Buyurtma</b> #{order.id}\n\n"
         f"👤 <b>Buyurtmachi:</b> {order.first_name}\n"
         f"📞 <b>Telefon:</b> {order.phone}\n"
         f"💰 <b>Jami summa:</b> {int(order.total):,} so'm\n"
-        f"💳 <b>To'lov turi:</b> {order.payment_type.capitalize()}\n\n"
+        f"💳 <b>To'lov turi:</b> {payment_type}\n"
+        f"🏘 <b>Viloyat:</b> {order.region}\n"
+        f"📍 <b>Tuman:</b> {order.district}\n"
+        f"🏠 <b>Manzil:</b> {order.address}\n\n"
         f"📚 <b>Buyurtmadagi Mahsulotlar:</b>\n"
     )
+
 
     image_paths = []
     order_items = order.order_items.all()
@@ -59,8 +68,7 @@ def send_order(order):
                 media_group.append(media)
 
         bot.send_media_group(chat_id=chat_id, media=media_group)
-        bot.send_message(chat_id=chat_id, text="📍 <b>Manzilni ko‘rish uchun tugmani bosing:</b>", parse_mode="HTML", reply_markup=markup)
     else:
-        bot.send_message(chat_id=chat_id, text=caption, parse_mode="HTML", reply_markup=markup)
+        bot.send_message(chat_id=chat_id, text=caption, parse_mode="HTML")
 
 
