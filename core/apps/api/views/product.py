@@ -50,14 +50,33 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
         "create": CreateProductSerializer,
     }
 
+    pagination_class = None  # paginationni o'chiramiz
+
     def get_queryset(self):
         queryset = super().get_queryset()
         q = self.request.query_params.get("q")
-
         if q:
             queryset = queryset.filter(Q(title__icontains=q) | Q(category__title__icontains=q))
-
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+
+        # faqat bitta data bilan response
+        return Response({
+            "status": True,
+                "links": {
+                    "previous": None,
+                    "next": None
+                },
+                "total_items": len(serializer.data),
+                "total_pages": 1,
+                "page_size": len(serializer.data),
+                "current_page": 1,
+                "results": serializer.data
+        })
+
 
 
 @extend_schema(tags=["productImage"])
