@@ -5,5 +5,5 @@ REST_FRAMEWORK: Union[Any] = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_PAGINATION_CLASS": "django_core.paginations.CustomPagination",
-    "PAGE_SIZE": 1110,
+    "PAGE_SIZE": 100,
 }
