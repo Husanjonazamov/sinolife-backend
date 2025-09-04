@@ -34,7 +34,7 @@ class ProductSearchAPIView(APIView):
 
 
 @extend_schema(tags=["product"])
-class ProductView(ReadOnlyModelViewSet):
+class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     queryset = ProductModel.objects.all()
     serializer_class = ListProductSerializer
     permission_classes = [AllowAny]
