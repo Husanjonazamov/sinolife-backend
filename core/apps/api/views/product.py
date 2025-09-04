@@ -34,7 +34,7 @@ class ProductSearchAPIView(APIView):
 
 
 @extend_schema(tags=["product"])
-class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
+class ProductView(ReadOnlyModelViewSet):
     queryset = ProductModel.objects.all()
     serializer_class = ListProductSerializer
     permission_classes = [AllowAny]
@@ -42,7 +42,7 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     filterset_class = ProductFilter
     ordering_fields = ["created_at", "price"]
     ordering = ["-created_at"]
-    pagination_class = None   
+    pagination_class = None
 
     action_permission_classes = {}
     action_serializer_class = {
@@ -54,27 +54,31 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         q = self.request.query_params.get("q")
+
         if q:
             queryset = queryset.filter(Q(title__icontains=q) | Q(category__title__icontains=q))
-        return queryset
 
+        return queryset
+    
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
 
-        data = {
+        response_data = {
+            "status": True,
             "links": {
                 "previous": None,
                 "next": None,
             },
             "total_items": queryset.count(),
-            "total_pages": 1,  
+            "total_pages": 1,  # pagination yo‘q, doim 1 sahifa
             "page_size": queryset.count(),
             "current_page": 1,
             "results": serializer.data,
         }
 
-        return Response({"status": True, "data": data})
+        return Response(response_data)
+
 
 
 @extend_schema(tags=["productImage"])
