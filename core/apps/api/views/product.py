@@ -42,6 +42,7 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     filterset_class = ProductFilter
     ordering_fields = ["created_at", "price"]
     ordering = ["-created_at"]
+    pagination_class = None   
 
     action_permission_classes = {}
     action_serializer_class = {
@@ -53,11 +54,27 @@ class ProductView(BaseViewSetMixin, ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         q = self.request.query_params.get("q")
-
         if q:
             queryset = queryset.filter(Q(title__icontains=q) | Q(category__title__icontains=q))
-
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+
+        data = {
+            "links": {
+                "previous": None,
+                "next": None,
+            },
+            "total_items": queryset.count(),
+            "total_pages": 1,  
+            "page_size": queryset.count(),
+            "current_page": 1,
+            "results": serializer.data,
+        }
+
+        return Response({"status": True, "data": data})
 
 
 @extend_schema(tags=["productImage"])
